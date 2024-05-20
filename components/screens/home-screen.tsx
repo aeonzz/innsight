@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { UserType } from "@/types/user";
 import Logout from "../ui/logout";
+import { Role } from "@prisma/client";
 
 interface HomeScreenProps {
   currentUser: UserType;
@@ -49,6 +50,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ currentUser }) => {
           >
             Contact Us
           </Link>
+          {currentUser.role === Role.ADMIN && (
+            <Link
+              href="/dashboard"
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "border-none text-secondary text-lg w-32"
+              )}
+            >
+              Dashboard
+            </Link>
+          )}
         </ul>
       </nav>
     </Card>

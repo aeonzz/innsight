@@ -17,6 +17,7 @@ const page = async () => {
   if (!currentUser.data || currentUser.error) {
     return <FetchDataError />;
   }
+  
   return (
     <>
       <HomeScreen currentUser={currentUser.data} />

@@ -17,8 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={playFair.className}>{children}</body>
+      <body className={playFair.className}>
+        {children}
         <Toaster />
+      </body>
     </html>
   );
 }

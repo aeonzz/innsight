@@ -1,9 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import bg from "@/public/441878683_969706121316541_6659600609965985987_n.jpg";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import HomeScreen from "@/components/screens/home-screen";
 
 export default function Layout({
   children,
