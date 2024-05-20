@@ -21,7 +21,21 @@ model User {
   role     Role   @default(USER)
 }
 
+model Room {
+  id           String   @id @default(uuid())
+  roomNumber   Int?
+  roomType     RoomType
+  availability Boolean  @default(true)
+  price        Decimal?
+}
+
 enum Role {
   USER
   ADMIN
+}
+
+enum RoomType {
+  JuniorSuite
+  SeaView
+  PresedentialSuite
 }

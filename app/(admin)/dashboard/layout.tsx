@@ -5,11 +5,11 @@ import { Role } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
-import NotFound from "../not-found";
 import bg from "@/public/441878683_969706121316541_6659600609965985987_n.jpg";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import DashboardMenu from "@/components/shared/dashboard-menu";
+import NotFound from "@/app/not-found";
 
 export default async function Layout({
   children,
