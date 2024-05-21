@@ -23,7 +23,7 @@ export default function RootLayout({
         <QueryClientProvder>
           <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </QueryClientProvder>
-        <Toaster />
+        <Toaster richColors />
       </body>
     </html>
   );

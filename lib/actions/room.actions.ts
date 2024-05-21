@@ -73,7 +73,6 @@ export async function getRoomById(roomId: string) {
 export async function bookRoom({
   userId,
   roomId,
-  payment,
   name,
   phoneNumber,
   address,
@@ -82,7 +81,6 @@ export async function bookRoom({
 }: {
   userId: string;
   roomId: string;
-  payment: number;
   name: string;
   phoneNumber: string;
   address: string;
@@ -94,7 +92,6 @@ export async function bookRoom({
       data: {
         roomId: roomId,
         guestid: userId,
-        payment,
         name,
         phoneNumber,
         address,
@@ -103,18 +100,10 @@ export async function bookRoom({
       },
     });
 
-    await prisma.room.update({
-      where: {
-        id: booking.roomId,
-      },
-      data: {
-        availability: false,
-      },
-    });
 
-    return { error: null, status: 200 };
+    return { data: booking, error: null, status: 200 };
   } catch (error: any) {
     console.log(error);
-    return { error: error.message, status: 500 };
+    return { data: null, rror: error.message, status: 500 };
   }
 }

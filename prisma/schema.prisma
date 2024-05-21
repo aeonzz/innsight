@@ -40,17 +40,28 @@ model Room {
 }
 
 model Booking {
-  id          String   @id @default(uuid())
-  guest       User     @relation(fields: [guestid], references: [id])
+  id          String    @id @default(uuid())
+  guest       User      @relation(fields: [guestid], references: [id])
   guestid     String
-  room        Room     @relation(fields: [roomId], references: [id])
+  room        Room      @relation(fields: [roomId], references: [id])
   roomId      String
-  payment     Float
   name        String
   phoneNumber String
   address     String
   fromDate    DateTime
   toDate      DateTime
+  confirmed   Boolean   @default(false)
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamp(6)
+  Payment     Payment[]
+}
+
+model Payment {
+  id          String   @id @default(uuid())
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  bookingId   String
+  amount      Float
+  paymentDate DateTime @default(now())
   createdAt   DateTime @default(now()) @db.Timestamp(6)
   updatedAt   DateTime @updatedAt @db.Timestamp(6)
 }

@@ -9,7 +9,7 @@ export default function NotFound({ className }: { className?: string }) {
     <section
       className={cn(
         className,
-        "flex h-screen items-center justify-center bg-[#0C0C0C]",
+        "flex h-screen items-center justify-center bg-[#0C0C0C] z-50 w-screen"
       )}
     >
       <div
@@ -28,7 +28,10 @@ export default function NotFound({ className }: { className?: string }) {
           </p>
           <Link
             href="/home"
-            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "text-secondary"
+            )}
           >
             Go to Homepage
           </Link>

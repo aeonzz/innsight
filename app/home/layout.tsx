@@ -16,7 +16,7 @@ export default function Layout({
         height={600}
         quality={100}
         objectFit="fill"
-        className="w-full h-full object-fill absolute"
+        className="w-full h-full object-fill absolute brightness-75"
       />
       {children}
     </main>

@@ -1,6 +1,7 @@
+import NotFound from "@/app/not-found";
 import BookRoomScreen from "@/components/screens/book-room-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
-import { getRooms } from "@/lib/actions/room.actions";
+import { getRoomById, getRooms } from "@/lib/actions/room.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -23,6 +24,11 @@ const page = async ({
   const currentUser = await getUserById(session.user.id);
   if (!currentUser.data || currentUser.error) {
     return <FetchDataError />;
+  }
+
+  const room = await getRoomById(params.roomId)
+  if (room.data?.availability === false) {
+    return <NotFound />
   }
 
   return (
