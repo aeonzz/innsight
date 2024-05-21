@@ -1,4 +1,4 @@
-import RoomScreen from "@/components/screens/room-screen";
+import BookRoomScreen from "@/components/screens/book-room-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
 import { getRooms } from "@/lib/actions/room.actions";
 import { getUserById } from "@/lib/actions/user.actions";
@@ -7,7 +7,13 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const page = async () => {
+const page = async ({
+  params,
+}: {
+  params: {
+    roomId: string;
+  };
+}) => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -19,14 +25,12 @@ const page = async () => {
     return <FetchDataError />;
   }
 
-  const rooms = await getRooms();
-  if (!rooms.data || rooms.error) {
-    return <FetchDataError />;
-  }
-
   return (
-    <section>
-      <RoomScreen rooms={rooms.data} />
+    <section className="flex h-screen w-full items-center justify-center z-50 p-7">
+      <BookRoomScreen
+        roomId={params.roomId}
+        currentUserId={currentUser.data.id}
+      />
     </section>
   );
 };

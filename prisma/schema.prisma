@@ -14,19 +14,45 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  username String
-  password String
-  role     Role   @default(USER)
+  id        String    @id @default(uuid())
+  email     String    @unique
+  username  String
+  password  String
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime  @updatedAt @db.Timestamp(6)
+  booking   Booking[]
 }
 
 model Room {
-  id           String   @id @default(uuid())
-  roomNumber   Int?
+  id           String    @id @default(uuid())
+  description  String
+  roomNumber   Int
+  image        String?
   roomType     RoomType
-  availability Boolean  @default(true)
-  price        Decimal?
+  bedSize      String
+  amenities    String
+  availability Boolean   @default(true)
+  price        Float
+  createdAt    DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime  @updatedAt @db.Timestamp(6)
+  booking      Booking[]
+}
+
+model Booking {
+  id          String   @id @default(uuid())
+  guest       User     @relation(fields: [guestid], references: [id])
+  guestid     String
+  room        Room     @relation(fields: [roomId], references: [id])
+  roomId      String
+  payment     Float
+  name        String
+  phoneNumber String
+  address     String
+  fromDate    DateTime
+  toDate      DateTime
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @updatedAt @db.Timestamp(6)
 }
 
 enum Role {

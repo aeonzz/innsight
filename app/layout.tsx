@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { EdgeStoreProvider } from "@/lib/edgestore";
+import QueryClientProvder from "@/components/shared/query-provider";
 
 const playFair = Playfair_Display({ subsets: ["latin"] });
 
@@ -18,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={playFair.className}>
-        {children}
+        <QueryClientProvder>
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        </QueryClientProvder>
         <Toaster />
       </body>
     </html>

@@ -89,7 +89,7 @@ const Signin = () => {
           )}
         />
         <p className="text-sm self-end">
-          Don't have an account?
+          Don&apos;t have an account?
           <Link
             href="/auth/signup"
             className="text-blue-800 border-b-blue-800 hover:border-b ml-1"
@@ -98,7 +98,7 @@ const Signin = () => {
           </Link>
         </p>
         <Button type="submit" className="w-full">
-          Submit
+          Signin
         </Button>
       </form>
     </Form>

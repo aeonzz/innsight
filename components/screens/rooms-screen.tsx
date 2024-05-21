@@ -22,7 +22,7 @@ const RoomsScreen = () => {
           <DialogTrigger asChild>
             <Button>Add Room</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Add Room</DialogTitle>
             </DialogHeader>
