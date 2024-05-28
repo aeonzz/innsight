@@ -5,8 +5,6 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import BookForm from "../forms/book-form";
-import { RoomProps } from "@/types/room";
-import { BookingProps } from "@/types/booking";
 import { DateRange } from "react-day-picker";
 import Checkout from "../ui/checkout";
 

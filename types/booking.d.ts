@@ -1,5 +1,12 @@
+import { BookStatus, User } from "@prisma/client";
+import { RoomProps } from "./room";
+
 export type BookingProps = {
   id: string;
-  fromDate: Date;
-  toDate: Date;
+  guest: User;
+  room: RoomProps;
+  fromDate: DateTime;
+  toDate: DateTime;
+  name: string;
+  status: BookStatus;
 };

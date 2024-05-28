@@ -2,6 +2,7 @@ import HomeScreen from "@/components/screens/home-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
+import { Role } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -17,6 +18,8 @@ const page = async () => {
   if (!currentUser.data || currentUser.error) {
     return <FetchDataError />;
   }
+
+  if (currentUser.data.role === Role.ADMIN) redirect("/dashboard")
   
   return (
     <>

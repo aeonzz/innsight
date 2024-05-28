@@ -11,18 +11,56 @@ import {
 import { Card, CardContent } from "../ui/card";
 import { staticRooms } from "@/constants/index";
 import Image from "next/image";
-import { Star } from "lucide-react";
+import { Bed, Star } from "lucide-react";
 import { RoomProps } from "@/types/room";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { UserType } from "@/types/user";
+import Logout from "../ui/logout";
+import { signOut } from "next-auth/react";
 
 interface RoomScreenProps {
   rooms: RoomProps[];
+  currentUserData: UserType;
 }
 
-const RoomScreen: React.FC<RoomScreenProps> = ({ rooms }) => {
+const RoomScreen: React.FC<RoomScreenProps> = ({ rooms, currentUserData }) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="relative flex items-center justify-center h-screen w-screen">
+      <div className="absolute top-5 left-5 bg-secondary/80 px-5 py-2 w-auto rounded-full flex items-center space-x-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="cursor-pointer">
+              <AvatarImage src="https://jolfgowviyxdrvtelayh.supabase.co/storage/v1/object/public/static%20images/d2984ec4b65a8568eab3dc2b640fc58e.jpg" />
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <Link href="/home/profile">
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem
+              onClick={() =>
+                signOut({
+                  redirect: true,
+                  callbackUrl: `${window.location.origin}/auth`,
+                })
+              }
+            >
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Link href="/home/profile">
+          <Bed className="text-red-500 h-8 w-8" />
+        </Link>
+      </div>
       <Carousel
         opts={{
           align: "start",
@@ -35,11 +73,11 @@ const RoomScreen: React.FC<RoomScreenProps> = ({ rooms }) => {
               <Link href={`/home/rooms/${room.id}`} className="p-1">
                 <Card className="flex justify-center flex-col space-y-3 items-center p-6">
                   <div className="relative">
-                  {!room.availability && (
-                    <div className="h-[200px] w-[300px] absolute bg-black/80 flex flex-col items-center justify-center">
-                      <h2 className="text-secondary text-2xl">Booked</h2>
-                    </div>
-                  )}
+                    {!room.availability && (
+                      <div className="h-[200px] w-[300px] absolute bg-black/80 flex flex-col items-center justify-center">
+                        <h2 className="text-secondary text-2xl">Booked</h2>
+                      </div>
+                    )}
                     <Image
                       src={
                         room.image

@@ -24,6 +24,15 @@ export async function createPayment(
       },
     });
 
+    await prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        confirmed: true,
+      },
+    });
+
     return { data: payment, error: null, status: 200 };
   } catch (error: any) {
     console.log(error);

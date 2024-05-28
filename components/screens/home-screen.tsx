@@ -16,10 +16,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ currentUser }) => {
     <Card className="z-50 w-[60%] h-[55%] flex items-center justify-center flex-col space-y-16">
       <div className="flex flex-col items-center space-y-5">
         <h1 className="text-8xl font-semibold text-secondary">WELCOME</h1>
-        <p className="text-xl text-secondary inline-flex gap-1">
-          {currentUser.username}
-          <Logout />
-        </p>
       </div>
       <nav>
         <ul>

@@ -40,19 +40,20 @@ model Room {
 }
 
 model Booking {
-  id          String    @id @default(uuid())
-  guest       User      @relation(fields: [guestid], references: [id])
+  id          String     @id @default(uuid())
+  guest       User       @relation(fields: [guestid], references: [id])
   guestid     String
-  room        Room      @relation(fields: [roomId], references: [id])
+  room        Room       @relation(fields: [roomId], references: [id])
   roomId      String
   name        String
   phoneNumber String
   address     String
   fromDate    DateTime
   toDate      DateTime
-  confirmed   Boolean   @default(false)
-  createdAt   DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime  @updatedAt @db.Timestamp(6)
+  status      BookStatus @default(PENDING)
+  confirmed   Boolean    @default(false)
+  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime   @updatedAt @db.Timestamp(6)
   Payment     Payment[]
 }
 
@@ -75,4 +76,10 @@ enum RoomType {
   JuniorSuite
   SeaView
   PresedentialSuite
+}
+
+enum BookStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
 }

@@ -1,6 +1,6 @@
-import RoomScreen from "@/components/screens/room-screen";
+import NotFound from "@/app/not-found";
+import ProfileScreen from "@/components/screens/profile-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
-import { getRooms } from "@/lib/actions/room.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -15,18 +15,18 @@ const page = async () => {
   }
 
   const currentUser = await getUserById(session.user.id);
-  if (!currentUser.data || currentUser.error) {
-    return <FetchDataError />;
+
+  if (!currentUser.data) {
+    return <NotFound />;
   }
 
-  const rooms = await getRooms();
-  if (!rooms.data || rooms.error) {
+  if (currentUser.error) {
     return <FetchDataError />;
   }
 
   return (
-    <section>
-      <RoomScreen rooms={rooms.data} currentUserData={currentUser.data} />
+    <section className="flex h-screen w-full items-center justify-center z-50 p-7">
+      <ProfileScreen currentUserData={currentUser.data} />
     </section>
   );
 };

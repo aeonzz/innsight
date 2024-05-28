@@ -24,13 +24,10 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import {
-  format,
-  isBefore,
-  startOfToday,
-} from "date-fns";
+import { format, isBefore, startOfToday } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface BookFormProps {
   roomId: string;
@@ -61,6 +58,7 @@ const BookForm: React.FC<BookFormProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
   const disablePastDates = (date: Date) => isBefore(date, startOfToday());
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -86,10 +84,11 @@ const BookForm: React.FC<BookFormProps> = ({
     const response = await bookRoom(data);
 
     if (response.data && response.status === 200) {
-      setBookingId(response.data.id)
+      setBookingId(response.data.id);
       setIsLoading(false);
       setCheckOut(true);
       router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["booked"] });
       // toast.success("Successful", {
       //   description: "Room created successfuly",
       // });
@@ -101,7 +100,6 @@ const BookForm: React.FC<BookFormProps> = ({
       });
     }
   }
-
 
   return (
     <Form {...form}>
