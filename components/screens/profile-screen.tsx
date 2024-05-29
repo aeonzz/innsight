@@ -18,10 +18,15 @@ interface ProfileScreenProps {
   currentUserData: UserType;
 }
 
+interface BookData {
+  roomBooked: BookingProps[];
+  bookHistory: BookingProps[];
+}
+
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ currentUserData }) => {
   const router = useRouter();
 
-  const { data, isLoading, isError } = useQuery<BookingProps[]>({
+  const { data, isLoading, isError } = useQuery<BookData>({
     queryFn: async () => {
       const response = await axios.get(`/api/user/${currentUserData.id}`);
       return response.data.data;
@@ -55,20 +60,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ currentUserData }) => {
         <div className="flex-1">
           <Tabs defaultValue="reservation" className="w-full">
             <TabsList>
-              <TabsTrigger value="reservation">Current reservation</TabsTrigger>
+              <TabsTrigger value="reservation">Active Reservations</TabsTrigger>
               <TabsTrigger value="history">History</TabsTrigger>
             </TabsList>
             <TabsContent value="reservation" className="w-full">
               <h2 className="text-secondary text-2xl">Booked Rooms</h2>
               {isLoading ? (
-                <div className="w-full h-1/2 flex items-center justify-center">
+                <div className="w-full h-[350px] flex items-center justify-center">
                   <LoaderCircle className="animate-spin text-secondary" />
                 </div>
               ) : isError ? (
                 <FetchDataError />
               ) : (
                 <div className="h-[500px] overflow-y-scroll">
-                  {data?.map((book, index) => (
+                  {data?.roomBooked.map((book, index) => (
                     <BookCard key={index} book={book} />
                   ))}
                 </div>
@@ -77,14 +82,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ currentUserData }) => {
             <TabsContent value="history" className="w-full">
               <h2 className="text-secondary text-2xl">Reservation History</h2>
               {isLoading ? (
-                <div className="w-full h-1/2 flex items-center justify-center">
+                <div className="w-full h-full flex items-center justify-center">
                   <LoaderCircle className="animate-spin text-secondary" />
                 </div>
               ) : isError ? (
                 <FetchDataError />
               ) : (
                 <div className="h-[500px] overflow-y-scroll">
-                  {data?.map((book, index) => (
+                  {data?.roomBooked.map((book, index) => (
                     <BookCard key={index} book={book} />
                   ))}
                 </div>

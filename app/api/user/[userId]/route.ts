@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import { BookStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 interface Context {
@@ -15,6 +16,7 @@ export async function GET(req: Request, params: Context) {
       where: {
         guestid: userId,
         confirmed: true,
+        status: BookStatus.ACTIVE,
       },
       include: {
         room: true,
@@ -22,7 +24,22 @@ export async function GET(req: Request, params: Context) {
       },
     });
 
-    return NextResponse.json({ data: roomBooked }, { status: 200 });
+    const bookHistory = await prisma.booking.findMany({
+      where: {
+        guestid: userId,
+        confirmed: true,
+        status: BookStatus.COMPLETED,
+      },
+      include: {
+        room: true,
+        guest: true,
+      },
+    });
+
+    return NextResponse.json(
+      { data: { roomBooked, bookHistory } },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.log(error);
     return NextResponse.json(
