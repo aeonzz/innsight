@@ -7,7 +7,9 @@ export type RoomProps = {
   image: string | null;
   roomType: RoomType;
   availability: boolean;
-  bedSize: string;
+  bedSize: number;
+  bedType: string;
+  roomFloor: string;
   amenities: string;
   price: Decimal | null;
   createdAt: Date;

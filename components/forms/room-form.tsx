@@ -23,13 +23,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RoomType } from "@prisma/client";
-import { createRoom } from "@/lib/actions/room.actions";
+import { createRoom, updateRoom } from "@/lib/actions/room.actions";
 import { toast } from "sonner";
 import { SingleImageDropzone } from "../ui/single-image";
 import { useEdgeStore } from "@/lib/edgestore";
+import { useQueryClient } from "@tanstack/react-query";
+import { RoomProps } from "@/types/room";
 
 interface RoomFormProps {
   setOpen: (state: boolean) => void;
+  formData?: RoomProps | null;
 }
 
 const FormSchema = z.object({
@@ -53,23 +56,71 @@ const FormSchema = z.object({
   description: z.string().min(1, {
     message: "Description is required",
   }),
-  bedSize: z.string().min(1, {
-    message: "Description is required",
-  }),
+  bedSize: z
+    .string()
+    .min(1, {
+      message: "Bed size is required",
+    })
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val), { message: "Bed size must be a number" }),
   amenities: z.string().min(1, {
     message: "Description is required",
   }),
+  bedType: z.string().min(1, {
+    message: "Bed Type is required",
+  }),
+  roomFloor: z.string().min(1, {
+    message: "Room floor is required",
+  }),
 });
 
-const RooomForm: React.FC<RoomFormProps> = ({ setOpen }) => {
+const RooomForm: React.FC<RoomFormProps> = ({ setOpen, formData }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
   const { edgestore } = useEdgeStore();
   const [file, setFile] = useState<File>();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      // @ts-ignore
+      roomNumber: String(formData?.roomNumber) ?? undefined,
+      // @ts-ignore
+      price: String(formData?.price) ?? undefined,
+      // @ts-ignore
+      bedSize: String(formData?.bedSize) ?? undefined,
+      amenities: formData?.amenities ?? undefined,
+      description: formData?.description ?? undefined,
+      bedType: formData?.bedType ?? undefined,
+      roomFloor: formData?.roomFloor ?? undefined,
+    },
   });
+
+  const processRoomResponse = (response: any) => {
+    setIsLoading(false);
+
+    if (response.status === 200) {
+      setOpen(false);
+      toast.success("Successful", {
+        description: formData
+          ? "Room updated successfully"
+          : "Room added successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["rooms-data"] });
+    } else if (response.status === 409) {
+      toast.warning("Uh oh! Something went wrong.", {
+        description: "Room number already exists",
+      });
+    } else {
+      toast.error("Uh oh! Something went wrong.", {
+        description:
+          "An error occurred while making the request. Please try again later",
+      });
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setIsLoading(true);
+
     let res;
     if (file) {
       try {
@@ -88,23 +139,12 @@ const RooomForm: React.FC<RoomFormProps> = ({ setOpen }) => {
       ...values,
       roomType: values.roomType as RoomType,
       image: res?.url,
+      ...(formData && { roomId: formData.id }),
     };
+    // @ts-ignore
+    const response = formData ? await updateRoom(data) : await createRoom(data);
 
-    const response = await createRoom(data);
-
-    if (response.status === 200) {
-      setIsLoading(false);
-      setOpen(false);
-      toast.success("Successful", {
-        description: "Booked successfuly",
-      });
-    } else {
-      setIsLoading(false);
-      toast.error("Uh oh! Something went wrong.", {
-        description:
-          "An error occurred while making the request. Please try again later",
-      });
-    }
+    processRoomResponse(response);
   }
   return (
     <Form {...form}>
@@ -157,7 +197,11 @@ const RooomForm: React.FC<RoomFormProps> = ({ setOpen }) => {
               <FormItem className="flex-1">
                 <FormLabel>Bed size</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter room bed size" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="Enter room bed size"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -181,19 +225,34 @@ const RooomForm: React.FC<RoomFormProps> = ({ setOpen }) => {
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter room description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex w-full space-x-3">
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter room description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="bedType"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Bed Type</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter bed type" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="flex w-full space-x-3">
           <FormField
             control={form.control}
@@ -220,6 +279,19 @@ const RooomForm: React.FC<RoomFormProps> = ({ setOpen }) => {
                     <SelectItem value={RoomType.SeaView}>Sea View</SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="roomFloor"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Room Floor</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter room floor" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

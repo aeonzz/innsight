@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   try {
     const rooms = await prisma.room.findMany({
+      where: {
+        deleted: false,
+      },
       orderBy: {
         createdAt: "asc",
       },

@@ -35,8 +35,8 @@ const RoomsScreen: React.FC<RoomsScreenProps> = ({ currentUserId }) => {
   });
 
   return (
-    <div className="border w-full p-3 flex flex-col space-y-3">
-      <div className="flex items-center justify-between border border-white">
+    <div className="w-full p-3 flex flex-col">
+      <div className="flex items-center justify-between">
         <h2 className="font-semibold text-4xl text-secondary">Rooms</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>

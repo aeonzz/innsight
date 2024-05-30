@@ -37,6 +37,18 @@ const DashboardMenu = () => {
           <BedSingle className="mr-1 h-5 w-5 text-primary" />
           Rooms
         </Link>
+        {pathname.startsWith("/dashboard/rooms") && (
+          <Link
+            href="/dashboard/rooms/booked"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              pathname === "/dashboard/rooms/booked" && "bg-yellow-600",
+              "border-none w-40 font-semibold text-secondary justify-start"
+            )}
+          >
+            <span className="ml-7">Booked</span>
+          </Link>
+        )}
         <Link
           href="/dashboard/guest"
           className={cn(
