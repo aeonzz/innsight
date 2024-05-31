@@ -89,7 +89,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ currentUserData }) => {
                 <FetchDataError />
               ) : (
                 <div className="h-[500px] overflow-y-scroll">
-                  {data?.roomBooked.map((book, index) => (
+                  {data?.bookHistory.map((book, index) => (
                     <BookCard key={index} book={book} />
                   ))}
                 </div>

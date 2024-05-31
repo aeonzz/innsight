@@ -1,5 +1,6 @@
 "use server";
 
+import { RoomStatus } from "@prisma/client";
 import prisma from "../db";
 
 export async function createPayment(
@@ -20,7 +21,7 @@ export async function createPayment(
         id: roomId,
       },
       data: {
-        availability: false,
+        status: RoomStatus.BOOKED,
       },
     });
 

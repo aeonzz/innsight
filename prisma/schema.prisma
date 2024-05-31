@@ -25,20 +25,20 @@ model User {
 }
 
 model Room {
-  id           String    @id @default(uuid())
+  id           String     @id @default(uuid())
   description  String
-  roomNumber   Int       @unique
+  roomNumber   Int        @unique
   image        String?
   roomType     RoomType
   bedSize      Int
   bedType      String
   amenities    String
   roomFloor    String
-  availability Boolean   @default(true)
+  status       RoomStatus @default(AVAILABLE)
   price        Float
-  deleted      Boolean   @default(false)
-  createdAt    DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime  @updatedAt @db.Timestamp(6)
+  deleted      Boolean    @default(false)
+  createdAt    DateTime   @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime   @updatedAt @db.Timestamp(6)
   booking      Booking[]
 }
 
@@ -85,4 +85,9 @@ enum BookStatus {
   PENDING
   ACTIVE
   COMPLETED
+}
+
+enum RoomStatus {
+  BOOKED
+  AVAILABLE
 }

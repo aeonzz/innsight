@@ -1,4 +1,4 @@
-import GuestsScreen from "@/components/screens/guests-screen";
+import ReportsScreen from "@/components/screens/reports-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
@@ -18,7 +18,7 @@ const page = async () => {
     return <FetchDataError />;
   }
 
-  return <GuestsScreen />;
+  return <ReportsScreen />;
 };
 
 export default page;

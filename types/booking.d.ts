@@ -9,4 +9,5 @@ export type BookingProps = {
   toDate: DateTime;
   name: string;
   status: BookStatus;
+  createdAt: DateTime;
 };

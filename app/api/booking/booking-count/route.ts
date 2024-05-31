@@ -1,16 +1,13 @@
 import prisma from "@/lib/db";
-import { BookStatus } from "@prisma/client";
+import { BookStatus, RoomStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
     const bookedRoomsCount = await prisma.room.count({
       where: {
-        booking: {
-          some: {
-            status: BookStatus.ACTIVE,
-          },
-        },
+        status: RoomStatus.BOOKED,
+        deleted: false,
       },
     });
     const roomsCount = await prisma.room.count({
@@ -20,13 +17,8 @@ export async function GET(req: Request) {
     });
     const availableRoomsCount = await prisma.room.count({
       where: {
-        booking: {
-          some: {
-            status: {
-              in: [BookStatus.PENDING, BookStatus.COMPLETED],
-            },
-          },
-        },
+        status: RoomStatus.AVAILABLE,
+        deleted: false,
       },
     });
     return NextResponse.json(

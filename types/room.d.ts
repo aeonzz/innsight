@@ -1,4 +1,4 @@
-import { RoomType } from "@prisma/client";
+import { RoomStatus, RoomType } from "@prisma/client";
 
 export type RoomProps = {
   id: string;
@@ -6,7 +6,7 @@ export type RoomProps = {
   roomNumber: number | null;
   image: string | null;
   roomType: RoomType;
-  availability: boolean;
+  status: RoomStatus;
   bedSize: number;
   bedType: string;
   roomFloor: string;

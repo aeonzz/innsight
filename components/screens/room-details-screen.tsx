@@ -9,6 +9,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { RoomStatus } from "@prisma/client";
 
 interface RoomDetailsScreenProps {
   room: RoomProps;
@@ -34,7 +35,7 @@ const RoomDetailsScreen: React.FC<RoomDetailsScreenProps> = ({ room }) => {
       <Card className="w-full h-auto p-8 flex flex-col space-y-10 items-center">
         <div className="flex space-x-10 w-full">
           <div className="relative">
-            {!room.availability && (
+            {room.status === RoomStatus.BOOKED && (
               <div className="h-[350px] w-full absolute bg-black/80 flex flex-col items-center justify-center">
                 <h2 className="text-secondary text-2xl">Booked</h2>
               </div>
@@ -66,7 +67,7 @@ const RoomDetailsScreen: React.FC<RoomDetailsScreenProps> = ({ room }) => {
             </h2>
           </div>
         </div>
-        {room.availability && (
+        {room.status === RoomStatus.AVAILABLE && (
           <Link
             href={`/home/rooms/${room.id}/book?price=${room.price}`}
             className={cn(buttonVariants({ variant: "default" }))}

@@ -1,6 +1,6 @@
 "use server";
 
-import { RoomType } from "@prisma/client";
+import { BookStatus, RoomType } from "@prisma/client";
 import prisma from "../db";
 
 export async function createRoom({

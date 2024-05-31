@@ -38,3 +38,23 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const guests = await prisma.booking.findMany({
+      where: {
+        confirmed: true,
+      },
+      include: {
+        room: true,
+      },
+    });
+    return NextResponse.json({ data: guests }, { status: 200 });
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json(
+      { message: "could not get post" },
+      { status: 500 }
+    );
+  }
+}

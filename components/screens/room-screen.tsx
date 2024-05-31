@@ -25,6 +25,7 @@ import {
 import { UserType } from "@/types/user";
 import Logout from "../ui/logout";
 import { signOut } from "next-auth/react";
+import { RoomStatus } from "@prisma/client";
 
 interface RoomScreenProps {
   rooms: RoomProps[];
@@ -73,7 +74,7 @@ const RoomScreen: React.FC<RoomScreenProps> = ({ rooms, currentUserData }) => {
               <Link href={`/home/rooms/${room.id}`} className="p-1">
                 <Card className="flex justify-center flex-col space-y-3 items-center p-6">
                   <div className="relative">
-                    {!room.availability && (
+                    {room.status === RoomStatus.BOOKED && (
                       <div className="h-[200px] w-[300px] absolute bg-black/80 flex flex-col items-center justify-center">
                         <h2 className="text-secondary text-2xl">Booked</h2>
                       </div>

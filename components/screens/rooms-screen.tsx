@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import RooomForm from "../forms/room-form";
-import { DataTable } from "../shared/data-table";
-import { columns } from "../shared/columns";
+import { RoomDataTable } from "../shared/room-data-table";
 import { useQuery } from "@tanstack/react-query";
+import { columns } from "../shared/room-table-columns";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { Room } from "@prisma/client";
@@ -58,7 +58,7 @@ const RoomsScreen: React.FC<RoomsScreenProps> = ({ currentUserId }) => {
         ) : isError ? (
           <FetchDataError />
         ) : (
-          <DataTable columns={columns} data={data} />
+          <RoomDataTable columns={columns} data={data} />
         )}
       </div>
     </div>
