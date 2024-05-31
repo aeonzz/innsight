@@ -2,9 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -22,18 +19,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { DataTablePagination } from "./data-table-pagination";
 
-interface GuestDataTableProps<TData, TValue> {
+interface TransactionDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function GuestDataTable<TData, TValue>({
+export function TransactionDataTable<TData, TValue>({
   columns,
   data,
-}: GuestDataTableProps<TData, TValue>) {
+}: TransactionDataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -45,7 +41,7 @@ export function GuestDataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     initialState: {
       pagination: {
-        pageSize: 5,
+        pageSize: 5, 
       },
     },
 
@@ -84,7 +80,7 @@ export function GuestDataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="py-5">
+                  <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

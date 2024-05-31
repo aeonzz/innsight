@@ -83,7 +83,7 @@ const RooomForm: React.FC<RoomFormProps> = ({ setOpen, formData }) => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       // @ts-ignore
-      roomNumber: String(formData?.roomNumber) ?? undefined,
+      roomNumber: String(formData?.roomNumber) ?? "",
       // @ts-ignore
       price: String(formData?.price) ?? undefined,
       // @ts-ignore

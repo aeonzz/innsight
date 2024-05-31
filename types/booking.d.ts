@@ -1,4 +1,4 @@
-import { BookStatus, User } from "@prisma/client";
+import { BookStatus, Payment, User } from "@prisma/client";
 import { RoomProps } from "./room";
 
 export type BookingProps = {
@@ -10,4 +10,5 @@ export type BookingProps = {
   name: string;
   status: BookStatus;
   createdAt: DateTime;
+  Payment: Payment[];
 };

@@ -4,6 +4,7 @@ import FetchDataError from "@/components/ui/fetch-data-error";
 import { getRoomById, getRooms } from "@/lib/actions/room.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
+import { RoomStatus } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -26,9 +27,9 @@ const page = async ({
     return <FetchDataError />;
   }
 
-  const room = await getRoomById(params.roomId)
-  if (room.data?.availability === false) {
-    return <NotFound />
+  const room = await getRoomById(params.roomId);
+  if (room.data?.status === RoomStatus.BOOKED) {
+    return <NotFound />;
   }
 
   return (

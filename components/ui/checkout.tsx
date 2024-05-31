@@ -62,7 +62,7 @@ const Checkout: React.FC<CheckoutProps> = ({ date, bookingId, roomId }) => {
     }
 
     // @ts-ignore
-    const response = await createPayment(bookingId, values.payment, roomId);
+    const response = await createPayment(bookingId, totalPrice, roomId);
 
     if (response.status === 200) {
       router.refresh();

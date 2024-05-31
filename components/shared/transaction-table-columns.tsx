@@ -14,6 +14,11 @@ export const columns: ColumnDef<BookingProps>[] = [
   //   header: "name",
   // },
   {
+    accessorFn: (row) => row.Payment[0].id,
+    id: "bookingId",
+    header: "Transaction Id",
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },
@@ -34,36 +39,24 @@ export const columns: ColumnDef<BookingProps>[] = [
     },
   },
   {
-    accessorKey: "fromDate",
-    header: "Check In",
-    cell: ({ row }) => {
-      const newDate = new Date(row.original.fromDate);
-      const checkInDate = format(newDate, "PP");
-
-      return (
-        <div>
-          <p>{checkInDate}</p>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "toDate",
-    header: "Check Out",
-    cell: ({ row }) => {
-      const newDate = new Date(row.original.fromDate);
-      const checkOutDate = format(newDate, "PP");
-
-      return (
-        <div>
-          <p>{checkOutDate}</p>
-        </div>
-      );
-    },
-  },
-  {
     accessorFn: (row) => row.room.roomType,
     id: "roomType",
     header: "Room Type",
+  },
+  {
+    accessorFn: (row) => row.Payment[0].amount,
+    id: "amount",
+    header: "Amount",
+    cell: ({ row }) => {
+      return (
+        <p className="text-md text-yellow-500 inline-flex flex-col">
+          {row.original.Payment[0].amount.toLocaleString("en-US", {
+            style: "currency",
+            currency: "PHP",
+          })}
+          <span className="text-secondary">per night</span>
+        </p>
+      );
+    },
   },
 ];

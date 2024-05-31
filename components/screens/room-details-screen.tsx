@@ -60,7 +60,7 @@ const RoomDetailsScreen: React.FC<RoomDetailsScreenProps> = ({ room }) => {
               Room Number: {room.roomNumber}
             </h2>
             <h2 className="text-4xl text-secondary break-all whitespace-pre-wrap">
-              Bed Size: {room.bedSize}
+              Bed Size: {room.bedSize} inches
             </h2>
             <h2 className="text-4xl text-secondary break-all whitespace-pre-wrap">
               Amenities: {room.amenities}

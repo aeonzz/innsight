@@ -6,6 +6,8 @@ import { Bell, LoaderCircle, Notebook, Star, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FetchDataError from "../ui/fetch-data-error";
+import { TransactionDataTable } from "../shared/transaction-data-table";
+import { columns } from "../shared/transaction-table-columns";
 
 interface QueryData {
   totalUsers: number;
@@ -21,6 +23,16 @@ const ReportsScreen = () => {
     },
     queryKey: ["report-data"],
   });
+
+  const transactionData = useQuery({
+    queryFn: async () => {
+      const response = await axios.get("/api/user");
+      return response.data.data;
+    },
+    queryKey: ["transaction-data"],
+  });
+
+  console.log(transactionData.data)
 
   return (
     <div className="w-full p-3 flex flex-col space-y-3">
@@ -87,8 +99,10 @@ const ReportsScreen = () => {
               </div>
             </TabsContent>
             <TabsContent value="transactions">
-              ahahah
-              
+              <TransactionDataTable
+                columns={columns}
+                data={transactionData.data}
+              />
             </TabsContent>
           </Tabs>
         )}

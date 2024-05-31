@@ -47,6 +47,7 @@ export async function GET(req: Request) {
       },
       include: {
         room: true,
+        Payment: true,
       },
     });
     return NextResponse.json({ data: guests }, { status: 200 });
