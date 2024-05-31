@@ -1,6 +1,6 @@
 "use server";
 
-import { RoomStatus } from "@prisma/client";
+import { BookStatus, RoomStatus } from "@prisma/client";
 import prisma from "../db";
 
 export async function createPayment(
@@ -31,6 +31,7 @@ export async function createPayment(
       },
       data: {
         confirmed: true,
+        status: BookStatus.ACTIVE,
       },
     });
 

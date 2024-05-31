@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,7 +22,8 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const Signin = () => {
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignInValidation>>({
     resolver: zodResolver(SignInValidation),
     defaultValues: {
@@ -32,7 +33,7 @@ const Signin = () => {
   });
 
   async function onSubmit(values: z.infer<typeof SignInValidation>) {
-    
+    setIsLoading(true);
     try {
       const signInData = await signIn("credentials", {
         email: values.email,
@@ -40,14 +41,16 @@ const Signin = () => {
         redirect: false,
       });
       if (signInData?.error) {
+        setIsLoading(false);
         toast.error("Uh oh! Something went wrong.", {
           description: signInData.error,
         });
       } else if (signInData?.ok) {
         router.push("/home");
-        router.refresh()
+        router.refresh();
       }
     } catch (error) {
+      setIsLoading(false);
       toast.error("Uh oh! Something went wrong.", {
         description:
           "An error occurred while making the request. Please try again later",
@@ -65,7 +68,11 @@ const Signin = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="mail@example.com" {...field} />
+                <Input
+                  placeholder="mail@example.com"
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,6 +88,7 @@ const Signin = () => {
                 <Input
                   type="password"
                   placeholder="Enter your password"
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -97,7 +105,7 @@ const Signin = () => {
             Sign up
           </Link>
         </p>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isLoading}>
           Signin
         </Button>
       </form>

@@ -19,7 +19,7 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
         alt="image"
         width={130}
         height={130}
-        className="object-cover rounded-sm"
+        className="object-cover rounded-sm aspect-video"
       />
       <div className="w-full flex justify-between">
         <div className="flex-col space-y-1">

@@ -54,7 +54,14 @@ const RoomDetailsScreen: React.FC<RoomDetailsScreenProps> = ({ room }) => {
           </div>
           <div className="space-y-9">
             <h2 className="text-4xl text-secondary break-all whitespace-pre-wrap">
-              Price: <span className="text-yellow-500">Php. {room.price}</span>
+              Price:{" "}
+              <span className="text-yellow-500">
+                {room.price.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "PHP",
+                })}{" "}
+                per night
+              </span>
             </h2>
             <h2 className="text-4xl text-secondary break-all whitespace-pre-wrap">
               Room Number: {room.roomNumber}

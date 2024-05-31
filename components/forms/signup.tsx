@@ -34,6 +34,7 @@ const Signup = () => {
   });
 
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/user", {
         method: "POST",

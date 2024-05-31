@@ -31,7 +31,7 @@ const DashboardScreen = () => {
   });
 
   return (
-    <div className="border w-full p-3 flex flex-col space-y-6">
+    <div className="w-full p-3 flex flex-col space-y-6">
       <h2 className="font-semibold text-4xl text-secondary">Dashboard</h2>
       <div className="w-full">
         <div className="grid grid-cols-4 grid-rows-1 h-24 gap-10">

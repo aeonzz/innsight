@@ -1,6 +1,5 @@
 import RoomScreen from "@/components/screens/room-screen";
 import FetchDataError from "@/components/ui/fetch-data-error";
-import { getRooms } from "@/lib/actions/room.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -19,14 +18,9 @@ const page = async () => {
     return <FetchDataError />;
   }
 
-  const rooms = await getRooms();
-  if (!rooms.data || rooms.error) {
-    return <FetchDataError />;
-  }
-
   return (
     <section>
-      <RoomScreen rooms={rooms.data} currentUserData={currentUser.data} />
+      <RoomScreen  currentUserData={currentUser.data} />
     </section>
   );
 };
