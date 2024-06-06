@@ -8,7 +8,7 @@ export async function GET(req: Request) {
         deleted: false,
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     return NextResponse.json(

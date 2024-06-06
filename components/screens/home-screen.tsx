@@ -20,7 +20,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ currentUser }) => {
       <nav>
         <ul>
           <Link
-            href=""
+            href="/home/about"
             className={cn(
               buttonVariants({ variant: "link" }),
               "border-none text-secondary text-lg w-32"
@@ -38,7 +38,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ currentUser }) => {
             Book Room
           </Link>
           <Link
-            href=""
+            href="/home/contact"
             className={cn(
               buttonVariants({ variant: "link" }),
               "border-none text-secondary text-lg w-32"

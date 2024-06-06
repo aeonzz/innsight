@@ -6,6 +6,7 @@ import TableActions from "./table-actions";
 import TableImage from "./table-image";
 import { BookingProps } from "@/types/booking";
 import { format } from "date-fns";
+import GuestTableActions from "./guest-table-actions";
 
 export const columns: ColumnDef<BookingProps>[] = [
   // {
@@ -16,6 +17,16 @@ export const columns: ColumnDef<BookingProps>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => (
+      <p className="text-sm text-secondary">{row.original.name}</p>
+    ),
+  },
+  {
+    accessorKey: "id",
+    header: "Booking Id",
+    cell: ({ row }) => (
+      <p className="text-xs text-secondary">{row.original.id}</p>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -35,7 +46,7 @@ export const columns: ColumnDef<BookingProps>[] = [
   },
   {
     accessorKey: "fromDate",
-    header: "Check In",
+    header: "From",
     cell: ({ row }) => {
       const newDate = new Date(row.original.fromDate);
       const checkInDate = format(newDate, "PP");
@@ -49,7 +60,7 @@ export const columns: ColumnDef<BookingProps>[] = [
   },
   {
     accessorKey: "toDate",
-    header: "Check Out",
+    header: "To",
     cell: ({ row }) => {
       const newDate = new Date(row.original.fromDate);
       const checkOutDate = format(newDate, "PP");
@@ -65,5 +76,10 @@ export const columns: ColumnDef<BookingProps>[] = [
     accessorFn: (row) => row.room.roomType,
     id: "roomType",
     header: "Room Type",
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => <GuestTableActions row={row.original} />,
   },
 ];

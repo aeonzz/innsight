@@ -25,39 +25,40 @@ model User {
 }
 
 model Room {
-  id           String     @id @default(uuid())
-  description  String
-  roomNumber   Int        @unique
-  image        String?
-  roomType     RoomType
-  bedSize      Int
-  bedType      String
-  amenities    String
-  roomFloor    String
-  status       RoomStatus @default(AVAILABLE)
-  price        Float
-  deleted      Boolean    @default(false)
-  createdAt    DateTime   @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime   @updatedAt @db.Timestamp(6)
-  booking      Booking[]
+  id          String     @id @default(uuid())
+  description String
+  roomNumber  Int        @unique
+  image       String?
+  roomType    RoomType
+  bedSize     Int
+  bedType     String
+  amenities   String
+  roomFloor   String
+  status      RoomStatus @default(AVAILABLE)
+  price       Float
+  deleted     Boolean    @default(false)
+  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime   @updatedAt @db.Timestamp(6)
+  booking     Booking[]
 }
 
 model Booking {
-  id          String     @id @default(uuid())
-  guest       User       @relation(fields: [guestid], references: [id])
-  guestid     String
-  room        Room       @relation(fields: [roomId], references: [id])
-  roomId      String
-  name        String
-  phoneNumber String
-  address     String
-  fromDate    DateTime
-  toDate      DateTime
-  status      BookStatus @default(PENDING)
-  confirmed   Boolean    @default(false)
-  createdAt   DateTime   @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime   @updatedAt @db.Timestamp(6)
-  Payment     Payment[]
+  id            String     @id @default(uuid())
+  guest         User       @relation(fields: [guestid], references: [id])
+  guestid       String
+  room          Room       @relation(fields: [roomId], references: [id])
+  roomId        String
+  name          String
+  phoneNumber   String
+  address       String
+  fromDate      DateTime
+  toDate        DateTime
+  checkInStatus CheckIn    @default(PENDING)
+  status        BookStatus @default(PENDING)
+  confirmed     Boolean    @default(false)
+  createdAt     DateTime   @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime   @updatedAt @db.Timestamp(6)
+  Payment       Payment[]
 }
 
 model Payment {
@@ -90,4 +91,10 @@ enum BookStatus {
 enum RoomStatus {
   BOOKED
   AVAILABLE
+}
+
+enum CheckIn {
+  PENDING
+  CHECKEDIN
+  CHECKOUT
 }

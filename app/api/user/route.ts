@@ -49,6 +49,9 @@ export async function GET(req: Request) {
         room: true,
         Payment: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return NextResponse.json({ data: guests }, { status: 200 });
   } catch (error: any) {

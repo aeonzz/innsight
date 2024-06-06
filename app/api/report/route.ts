@@ -6,9 +6,10 @@ export async function GET(req: Request) {
     const totalUsers = await prisma.user.count();
     const totalReservations = await prisma.booking.count();
     const totalBooked = await prisma.booking.count();
+    const totalRooms = await prisma.room.count();
 
     return NextResponse.json(
-      { data: { totalUsers, totalReservations, totalBooked } },
+      { data: { totalUsers, totalReservations, totalBooked, totalRooms } },
       { status: 200 }
     );
   } catch (error: any) {
